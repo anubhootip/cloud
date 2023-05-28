@@ -1,6 +1,7 @@
 const express = require('express');
-const csv = require('csv-parser');
+const csv = require('csv-parse');
 const fs = require('fs');
+const path = require('path');
 
 const ERRORS = {
   invalidCSV: "Input file not in CSV format."
@@ -14,41 +15,41 @@ app.use(express.json());
 app.post('/sum', (req, res) => {
   const { file, product } = req.body;
 
-  const filePath = `/data/${file}`;
-
+  const filePath = path.resolve(`/data/${file}`);
   let sum = 0;
   let isCSV = true;
 
-  fs.createReadStream(filePath)
-    .pipe(csv())
-    .on('data', (row) => {
-      // Check if the row has the required columns
-      if (!row.product || !row.amount) {
-        isCSV = false;
+  fs.readFile(filePath, 'utf-8', (err, fileData) => {
+    if (err) {
+      res.status(404).json({ file, error: ERRORS.invalidCSV });
+      return;
+    }
+
+    csv.parse(fileData, { columns: true }, (errr, records) => {
+      if (errr) {
+        res.status(400).json({ file, error: ERRORS.invalidCSV });
         return;
       }
 
-      // Perform the calculation based on the product and row data
-      if (row.product === product) {
-        const amount = parseInt(row.amount, 10);
-        if (!isNaN(amount)) {
-          sum += amount;
-        } else {
-          isCSV = false;
-          return;
+      for (let row of records) {
+        if (row.product === product) {
+          const amount = parseInt(row.amount, 10);
+          if (!isNaN(amount)) {
+            sum += amount;
+          } else {
+            isCSV = false;
+            break;
+          }
         }
       }
-    })
-    .on('end', () => {
+
       if (!isCSV) {
-        res.status(400).json({ file, error: ERRORS.invalidCSV});
+        res.status(400).json({ file, error: ERRORS.invalidCSV });
       } else {
         res.json({ file, sum });
       }
     })
-    .on('error', (err) => {
-      res.status(404).json({ file, error: 'File not found.' });
-    });
+  });
 });
 
 app.listen(port, () => {

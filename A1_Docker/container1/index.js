@@ -21,11 +21,13 @@ const server = http.createServer((req, res) => {
         try {
 
           const fileExists = fs.existsSync(`/data/${file}`);
-          if (!fileExists) {
+          if (!file) {
+            throw new Error(ERRORS.invalidJSON)
+          } else if (!fileExists) {
             throw new Error(ERRORS.notFound);
           }
 
-          // (async () => {
+
           const response = await fetch(container2Url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -36,8 +38,6 @@ const server = http.createServer((req, res) => {
           // Send the JSON response
           res.writeHead(response.status, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify(data));
-          // })();
-
         } catch (error) {
           res.writeHead(400, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ file: file || null, error: error.message }));
@@ -46,7 +46,6 @@ const server = http.createServer((req, res) => {
       } catch (error) {
         res.writeHead(400, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ file: null, error: ERRORS.invalidJSON }));
-
       }
     });
   } else {
