@@ -1,0 +1,20 @@
+services:
+  container1:
+    build:
+      context: ../container1
+      dockerfile: Dockerfile
+    ports:
+      - 6000:6000
+    depends_on:
+      - container2
+    volumes:
+      - ./:/data
+
+  container2:
+    build:
+      context: ../container2
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    volumes:
+      - ./:/data
