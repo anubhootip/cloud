@@ -1,8 +1,6 @@
 services:
   container1:
-    build:
-      context: ../container1
-      dockerfile: Dockerfile
+    image: anubhootipathak/container1:tagname
     ports:
       - 6000:6000
     depends_on:
@@ -11,10 +9,6 @@ services:
       - ./:/data
 
   container2:
-    build:
-      context: ../container2
-      dockerfile: Dockerfile
-    ports:
-      - 5000:5000
+    image: anubhootipathak/container2:tagname
     volumes:
       - ./:/data
