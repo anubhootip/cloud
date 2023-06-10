@@ -1,7 +1,7 @@
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
-const fileOperations = require('./file-operations');
 const fetch = require('node-fetch');
+const fileOperations = require('./file-operations');
 
 const ROB_APP_START_URL = 'http://54.173.209.76:9000/start';
 const BANNER = 'B00934518';
@@ -18,7 +18,6 @@ function StoreData(call, callback) {
   const { data } = call.request;
   // create s3 file, save data in it and send back public s3uri
   fileOperations.saveNewFile(data).then(s3uri => {
-    console.log('save new file success');
     callback(null, { s3uri });
   })
 }
@@ -48,8 +47,6 @@ function main() {
     }).then((d) => console.log(JSON.stringify(d), 'fetch success'))
       .catch(err => console.log(err, 'fetch failed'));
   });
-
-
 }
 
 main();
