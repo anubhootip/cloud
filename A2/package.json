@@ -12,6 +12,6 @@
     "@grpc/grpc-js": "^1.8.15",
     "@grpc/proto-loader": "^0.7.7",
     "aws-sdk": "^2.1395.0",
-    "node-fetch": "^3.3.1"
+    "node-fetch": "^2.6.11"
   }
 }
