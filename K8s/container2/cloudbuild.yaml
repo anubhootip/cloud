@@ -1,0 +1,36 @@
+steps:
+  # Docker Build us-east1-docker.pkg.dev/csci-5409-cloud-computing/container2
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'build',
+        '-t',
+        'us-east1-docker.pkg.dev/csci-5409-cloud-computing/container2/my-app:${SHORT_SHA}',
+        '-t',
+        'us-east1-docker.pkg.dev/csci-5409-cloud-computing/container2/my-app:latest',
+        '--cache-from',
+        'us-east1-docker.pkg.dev/csci-5409-cloud-computing/container2/my-app:latest',
+        '.',
+      ]
+
+  # Docker push to Google Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'push',
+        'us-east1-docker.pkg.dev/csci-5409-cloud-computing/container2/my-app:${SHORT_SHA}',
+      ]
+
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args:
+      - 'apply'
+      - '-f'
+      - './deploy.yaml'
+    env:
+      - 'CLOUDSDK_COMPUTE_ZONE=us-east1-b'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=first-cluster'
+
+# Store images in Google Artifact Registry
+images:
+  - us-east1-docker.pkg.dev/csci-5409-cloud-computing/container2/my-app:${SHORT_SHA}
+  - us-east1-docker.pkg.dev/csci-5409-cloud-computing/container2/my-app:latest
