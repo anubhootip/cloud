@@ -28,7 +28,7 @@ steps:
       - './deploy.yaml'
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=us-east1-b'
-      - 'CLOUDSDK_CONTAINER_CLUSTER=first-cluster'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=my-cluster'
 
 # Store images in Google Artifact Registry
 images:

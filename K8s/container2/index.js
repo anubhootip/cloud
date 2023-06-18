@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ERRORS = {
-  invalidCSV: "Input file not in CSV format."
+  invalidCSV: 'Input file not in CSV format.'
 }
 
 const app = express();
@@ -15,7 +15,7 @@ app.use(express.json());
 app.post('/sum', (req, res) => {
   const { file, product } = req.body;
 
-  const filePath = path.resolve(`/data/${file}`);
+  const filePath = path.resolve(`/home/pathakanubhooti/Anubhooti_PV_dir/${file}`);
   let sum = 0;
   let isCSV = true;
 
@@ -43,15 +43,15 @@ app.post('/sum', (req, res) => {
         }
       }
 
-      if (!isCSV) {
+      if (!isCSV || !records?.length) {
         res.status(400).json({ file, error: ERRORS.invalidCSV });
       } else {
-        res.json({ file, sum });
+        res.json({ file, sum: '' + sum });
       }
     })
   });
 });
 
 app.listen(port, () => {
-  console.log(`Container 2 listening at http://localhost:${port}`);
+  console.log(`Container 2 started application listening at http://localhost:${port}`);
 });

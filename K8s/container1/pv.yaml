@@ -6,11 +6,11 @@ spec:
   capacity:
     storage: 1Gi
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   storageClassName: standard
   hostPath:
-    path: /app/Anubhooti_PV_dir
+    path: /home/pathakanubhooti/Anubhooti_PV_dir
 
 ---
 apiVersion: v1
@@ -19,7 +19,7 @@ metadata:
   name: my-pvc
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   storageClassName: standard
   resources:
     requests:

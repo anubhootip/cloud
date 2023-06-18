@@ -38,7 +38,7 @@ const server = http.createServer((req, res) => {
         const { file, product } = JSON.parse(body);
         try {
 
-          const fileExists = fs.existsSync(`/data/${file}`);
+          const fileExists = fs.existsSync(`/home/pathakanubhooti/Anubhooti_PV_dir/${file}`);
           if (!file) {
             throw new Error(ERRORS.invalidJSON)
           } else if (!fileExists) {
@@ -74,5 +74,5 @@ const server = http.createServer((req, res) => {
 
 const port = 6000;
 server.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+  console.log(`Server started test application listening on port ${port}`);
 });

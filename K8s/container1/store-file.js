@@ -6,7 +6,7 @@ module.exports = async (body) => {
   let { isPass, json = {} } = {};
   try {
     const { file, data } = JSON.parse(body);
-    const filePath = '/app/Anubhooti_PV_dir/' + file;
+    const filePath = '/home/pathakanubhooti/Anubhooti_PV_dir/' + file;
     if (!file) {
 
       json = {
@@ -16,10 +16,9 @@ module.exports = async (body) => {
     } else {
 
 
-      fs.writeFile(filePath, data, (error) => {
+      fs.writeFile(filePath, data?.replaceAll(" ", ""), (error) => {
 
         if (error) {
-          console.log('error->>>>>>>>', error, '>>>>>', path);
           json = {
             file,
             error: "Error while storing the file to the storage."

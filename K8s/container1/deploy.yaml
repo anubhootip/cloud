@@ -19,7 +19,7 @@ spec:
             - containerPort: 6000
           volumeMounts:
             - name: pv-volume
-              mountPath: /app/Anubhooti_PV_dir
+              mountPath: /home/pathakanubhooti/Anubhooti_PV_dir
       volumes:
         - name: pv-volume
           persistentVolumeClaim:
