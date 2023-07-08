@@ -1,6 +1,6 @@
 const http = require('http');
-const { Client, Pool } = require('pg');
-
+const { Pool } = require('pg');
+require('dotenv').config();
 const ERRORS = {
   invalidJSON: "Invalid JSON input."
 }
@@ -68,7 +68,7 @@ const server = http.createServer((req, res) => {
   }
 });
 
-const port = 6000;
+const port = 80;
 server.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
