@@ -1,0 +1,46 @@
+{
+  "Comment": "A4 serverless assignment",
+  "StartAt": "IF-SHA-256",
+  "States": {
+    "IF-SHA-256": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.action",
+          "StringEquals": "sha256",
+          "Next": "SHA-256"
+        }
+      ],
+      "Default": "IF-MD5"
+    },
+    "IF-MD5": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.action",
+          "StringEquals": "md5",
+          "Next": "MD5"
+        }
+      ],
+      "Default": "Bcrypt"
+    },
+    "MD5": {
+      "Comment": "MD5",
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-east-1:730617025579:function:MD5",
+      "End": true
+    },
+    "SHA-256": {
+      "Comment": "SHA-256",
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-east-1:730617025579:function:SHA-256",
+      "End": true
+    },
+    "Bcrypt": {
+      "Comment": "Bcrypt",
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-east-1:730617025579:function:Bcrypt",
+      "End": true
+    }
+  }
+}
