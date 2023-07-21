@@ -3,7 +3,6 @@ import bcrypt from 'bcryptjs';
 export const handler = async (event) => {
     const saltRounds = 10;
     let success;
-    const promise = new Promise((res) => success = res);
     const hashedValue = await bcrypt.hash(event['value'], saltRounds);
     const result = {
         "banner": "B00934518",
