@@ -11,16 +11,13 @@ export const handler = async (event) => {
         "action": event['action'],
         "value": event['value']
     };
-    fetch(event.course_uri, {
+    return await fetch(event.course_uri, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(result),
     })
-    const response = {
-        statusCode: 200,
-        body: JSON.stringify(result),
-    };
-    return response;
+        .catch(console.log)
+        .finally(() => result);
 };
